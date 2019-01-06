@@ -1,40 +1,52 @@
-package sorting;
-
 import java.util.*;
+import java.lang.*;
+import java.io.*;
 
-public class BucketSort{
- 
-   public static void sort(int[] arr, int maxVal) {
-	   
-      int [] bucket=new int[maxVal+1];
- 
-      for (int i=0; i<bucket.length; i++) {
-         bucket[i]=0;
-      }
- 
-      for (int i=0; i<arr.length; i++) {
-         bucket[arr[i]]++;
-      }
- 
-      int pos=0;
-      for (int i=0; i<bucket.length; i++) {
-         for (int j=0; j<bucket[i]; j++) {
-            arr[pos++]=i;
-         }
-      }
-   }
- 
-   public static void main(String[] args) {
+class Solution
+{
 
-      int [] array= {2,5,3,6,1,8}; 
-     
-      int max = array[0]; 
-      for (int i = 1; i < array.length; i++) 
-          if (array[i] > max) 
-              max = array[i];
-      int maxVal = max;
+	public static void BucketSort(double a[], int n) {
 
-      sort(array,maxVal);
-      System.out.println("Sorted array" + Arrays.toString(array));
-   }
+		LinkedList<Double> buckets[] = new LinkedList[10];
+		Double result[] = new Double[10];
+
+		int count = 0;
+
+		for(int i = 0; i < a.length; i++) {
+			if(buckets[(int) (n * a[i])] == null)
+				buckets[(int) (n * a[i])] = new LinkedList<Double>();
+			buckets[(int) (n * a[i])].addLast(a[i]);
+		}
+
+		for(int i = 0; i < 10; i++) {
+			if(buckets[i]!= null) {
+				Collections.sort(buckets[i]);
+			}
+		}
+
+		for(int i = 0; i < 10; i++) {
+			if(buckets[i] != null) {
+				for(Double val : buckets[i]) {
+					result[count++] = val;
+				}
+			}
+		}
+
+		for(int i = 0; i < count; i++)
+			a[i] = result[i];
+
+	}
+
+
+	public static void main (String[] args) throws java.lang.Exception
+	{
+	double arr[] = {0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434};
+	    int n = arr.length;
+	    BucketSort(arr, n);
+	 
+	    for (int i=0; i<n; i++)
+	       System.out.print(arr[i] + " ");
+
+	}
 }
+
